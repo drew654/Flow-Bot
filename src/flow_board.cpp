@@ -8,7 +8,7 @@ using std::cout, std::endl, std::string, std::vector, std::pair, std::ifstream;
 flow_board::flow_board() {
     rows = -1;
     cols = -1;
-    possible_paths = vector<vector<vector<char>>>(16);
+    possible_paths = vector<vector<vector<vector<char>>>>(16);
     nodes = vector<vector<char>>();
     vector<pair<int, int>> pipe_starts = vector<pair<int, int>>(16, {-1, -1});
     vector<pair<int, int>> pipe_ends = vector<pair<int, int>>(16, {-1, -1});
@@ -26,7 +26,7 @@ flow_board::flow_board(std::string file_name) {
     rows = stoi(r);
     cols = stoi(c);
 
-    possible_paths = vector<vector<vector<char>>>(16);
+    possible_paths = vector<vector<vector<vector<char>>>>(16);
     vector<vector<char>> vec(rows, vector<char>(cols, ' '));
     nodes = vec;
 
@@ -52,7 +52,7 @@ void flow_board::solve() {
     for (unsigned int i = 0; i < pipe_starts.size(); ++i) {
         // If there is a pipe start
         if (pipe_starts.at(i).first != -1 && pipe_starts.at(i).second != -1) {
-            // Find possible path
+            // Find possible paths
             vector<vector<char>> cur = vector<vector<char>>(nodes);
             build_paths_at(pipe_starts.at(i).first, pipe_starts.at(i).second, int_to_color(i), cur);
         }
@@ -251,7 +251,7 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
         // If (row, col) is the pipe end
         if (row == pipe_ends.at(color_to_int(color)).first && col == pipe_ends.at(color_to_int(color)).second) {
             // Add cur to possible_paths
-            possible_paths.at(color_to_int(color)) = cur;
+            possible_paths.at(color_to_int(color)).push_back(cur);
             return;
         }
     }
