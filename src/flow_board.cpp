@@ -47,6 +47,7 @@ flow_board::flow_board(std::string file_name) {
 void flow_board::solve() {
     // Map location of every pipe start and end
     map_nodes();
+    cout << "nodes mapped" << endl;
 
     // Find possible paths for each pipe
     for (unsigned int i = 0; i < pipe_starts.size(); ++i) {
@@ -55,6 +56,70 @@ void flow_board::solve() {
             // Find possible paths
             vector<vector<char>> cur = vector<vector<char>>(nodes);
             build_paths_at(pipe_starts.at(i).first, pipe_starts.at(i).second, int_to_color(i), cur);
+        }
+    }
+    // TODO: Figure out why there are no paths
+    cout << "found possible paths for each pipe" << endl;
+    cout << "red paths: " << possible_paths.at(0).size() << endl;
+    cout << "green paths: " << possible_paths.at(1).size() << endl;
+    cout << "blue paths: " << possible_paths.at(2).size() << endl;
+    cout << "yellow paths: " << possible_paths.at(3).size() << endl;
+    cout << "orange paths: " << possible_paths.at(4).size() << endl;
+
+    for (unsigned int r = 0; r < possible_paths.at(color_to_int('r')).size(); ++r) {
+        for (unsigned int g = 0; g < possible_paths.at(color_to_int('g')).size(); ++g) {
+            for (unsigned int b = 0; b < possible_paths.at(color_to_int('b')).size(); ++b) {
+                for (unsigned int y = 0; y < possible_paths.at(color_to_int('y')).size(); ++y) {
+                    for (unsigned int o = 0; o < possible_paths.at(color_to_int('o')).size(); ++o) {
+                        for (unsigned int c = 0; c < possible_paths.at(color_to_int('c')).size(); ++c) {
+                            for (unsigned int m = 0; m < possible_paths.at(color_to_int('m')).size(); ++m) {
+                                for (unsigned int w = 0; w < possible_paths.at(color_to_int('w')).size(); ++w) {
+                                    for (unsigned int p = 0; p < possible_paths.at(color_to_int('p')).size(); ++p) {
+                                        for (unsigned int h = 0; h < possible_paths.at(color_to_int('h')).size(); ++h) {
+                                            for (unsigned int a = 0; a < possible_paths.at(color_to_int('a')).size(); ++a) {
+                                                for (unsigned int l = 0; l < possible_paths.at(color_to_int('l')).size(); ++l) {
+                                                    for (unsigned int e = 0; e < possible_paths.at(color_to_int('e')).size(); ++e) {
+                                                        for (unsigned int n = 0; n < possible_paths.at(color_to_int('n')).size(); ++n) {
+                                                            for (unsigned int t = 0; t < possible_paths.at(color_to_int('t')).size(); ++t) {
+                                                                for (unsigned int k = 0; k < possible_paths.at(color_to_int('k')).size(); ++k) {
+                                                                    vector<vector<vector<char>>> set_of_paths = {
+                                                                        possible_paths.at(color_to_int('r')).at(r),
+                                                                        possible_paths.at(color_to_int('g')).at(g),
+                                                                        possible_paths.at(color_to_int('b')).at(b),
+                                                                        possible_paths.at(color_to_int('y')).at(y),
+                                                                        possible_paths.at(color_to_int('o')).at(o),
+                                                                        possible_paths.at(color_to_int('c')).at(c),
+                                                                        possible_paths.at(color_to_int('m')).at(m),
+                                                                        possible_paths.at(color_to_int('w')).at(w),
+                                                                        possible_paths.at(color_to_int('p')).at(p),
+                                                                        possible_paths.at(color_to_int('h')).at(h),
+                                                                        possible_paths.at(color_to_int('a')).at(a),
+                                                                        possible_paths.at(color_to_int('l')).at(l),
+                                                                        possible_paths.at(color_to_int('e')).at(e),
+                                                                        possible_paths.at(color_to_int('n')).at(n),
+                                                                        possible_paths.at(color_to_int('t')).at(t),
+                                                                        possible_paths.at(color_to_int('k')).at(k)
+                                                                    };
+                                                                    if (paths_compatible(set_of_paths)) {
+                                                                        cout << "Found solution." << endl;
+                                                                    }
+                                                                    else {
+                                                                        cout << "No solution." << endl;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -271,6 +336,11 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
     build_paths_at(row - 1, col + 1, color, cur);
 }
 
+// TODO: Complete this
+bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths) {
+    return false;
+}
+
 string flow_board::color_string(string input, char color) {
     string result = "";
     switch (color) {
@@ -368,7 +438,7 @@ int flow_board::color_to_int(char color) {
     return -1;
 }
 
-int flow_board::color_to_int(char color) {
+char flow_board::int_to_color(int color) {
     switch (color) {
         case 0: return 'r';
         case 1: return 'g';
