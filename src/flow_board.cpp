@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-using std::cout, std::endl, std::string, std::vector, std::ifstream;
+using std::cout, std::endl, std::string, std::vector, std::pair, std::ifstream;
 
 flow_board::flow_board() {
     rows = -1;
@@ -37,6 +37,14 @@ flow_board::flow_board(std::string file_name) {
         }
     }
     inFS.close();
+}
+
+void flow_board::solve() {
+    // Map location of every pipe start and end
+    vector<pair<int, int>> pipe_starts = vector<pair<int, int>>(16, {-1, -1});
+    vector<pair<int, int>> pipe_ends = vector<pair<int, int>>(16, {-1, -1});
+    vector<bool> nodes_present = vector<bool>(16, false);
+    map_nodes(pipe_starts, pipe_ends, nodes_present);
 }
 
 void flow_board::print_graph(bool letters) {
@@ -87,6 +95,159 @@ void flow_board::print_graph(bool letters) {
         }
     }
     cout << "┘" << endl;
+}
+
+void flow_board::map_nodes(vector<pair<int, int>>& pipe_starts, vector<pair<int, int>>& pipe_ends, vector<bool>& nodes_present) {
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            switch (nodes.at(row).at(col)) {
+                case 'r':
+                    if (pipe_starts.at(0).first == -1 && pipe_starts.at(0).second == -1) {
+                        pipe_starts.at(0) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(0) = {row, col};
+                        nodes_present.at(0) = true;
+                    }
+                break;
+                case 'g':
+                    if (pipe_starts.at(1).first == -1 && pipe_starts.at(1).second == -1) {
+                        pipe_starts.at(1) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(1) = {row, col};
+                        nodes_present.at(1) = true;
+                    }
+                break;
+                case 'b':
+                    if (pipe_starts.at(2).first == -1 && pipe_starts.at(2).second == -1) {
+                        pipe_starts.at(2) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(2) = {row, col};
+                        nodes_present.at(2) = true;
+                    }
+                break;
+                case 'y':
+                    if (pipe_starts.at(3).first == -1 && pipe_starts.at(3).second == -1) {
+                        pipe_starts.at(3) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(3) = {row, col};
+                        nodes_present.at(3) = true;
+                    }
+                break;
+                case 'o':
+                    if (pipe_starts.at(4).first == -1 && pipe_starts.at(4).second == -1) {
+                        pipe_starts.at(4) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(4) = {row, col};
+                        nodes_present.at(4) = true;
+                    }
+                break;
+                case 'c':
+                    if (pipe_starts.at(5).first == -1 && pipe_starts.at(5).second == -1) {
+                        pipe_starts.at(5) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(5) = {row, col};
+                        nodes_present.at(5) = true;
+                    }
+                break;
+                case 'm':
+                    if (pipe_starts.at(6).first == -1 && pipe_starts.at(6).second == -1) {
+                        pipe_starts.at(6) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(6) = {row, col};
+                        nodes_present.at(6) = true;
+                    }
+                break;
+                case 'w':
+                    if (pipe_starts.at(7).first == -1 && pipe_starts.at(7).second == -1) {
+                        pipe_starts.at(7) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(7) = {row, col};
+                        nodes_present.at(7) = true;
+                    }
+                break;
+                case 'p':
+                    if (pipe_starts.at(8).first == -1 && pipe_starts.at(8).second == -1) {
+                        pipe_starts.at(8) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(8) = {row, col};
+                        nodes_present.at(8) = true;
+                    }
+                break;
+                case 'h':
+                    if (pipe_starts.at(9).first == -1 && pipe_starts.at(9).second == -1) {
+                        pipe_starts.at(9) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(9) = {row, col};
+                        nodes_present.at(9) = true;
+                    }
+                break;
+                case 'a':
+                    if (pipe_starts.at(10).first == -1 && pipe_starts.at(10).second == -1) {
+                        pipe_starts.at(10) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(10) = {row, col};
+                        nodes_present.at(10) = true;
+                    }
+                break;
+                case 'l':
+                    if (pipe_starts.at(11).first == -1 && pipe_starts.at(11).second == -1) {
+                        pipe_starts.at(11) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(11) = {row, col};
+                        nodes_present.at(11) = true;
+                    }
+                break;
+                case 'e':
+                    if (pipe_starts.at(12).first == -1 && pipe_starts.at(12).second == -1) {
+                        pipe_starts.at(12) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(12) = {row, col};
+                        nodes_present.at(12) = true;
+                    }
+                break;
+                case 'n':
+                    if (pipe_starts.at(13).first == -1 && pipe_starts.at(13).second == -1) {
+                        pipe_starts.at(13) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(13) = {row, col};
+                        nodes_present.at(13) = true;
+                    }
+                break;
+                case 't':
+                    if (pipe_starts.at(14).first == -1 && pipe_starts.at(14).second == -1) {
+                        pipe_starts.at(14) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(14) = {row, col};
+                        nodes_present.at(14) = true;
+                    }
+                break;
+                case 'k':
+                    if (pipe_starts.at(15).first == -1 && pipe_starts.at(15).second == -1) {
+                        pipe_starts.at(15) = {row, col};
+                    }
+                    else {
+                        pipe_ends.at(15) = {row, col};
+                        nodes_present.at(15) = true;
+                    }
+                break;
+            }
+        }
+    }
 }
 
 string flow_board::color_string(string input, char color) {
