@@ -2,16 +2,20 @@
 
 #include <iostream>
 #include <fstream>
+#include <thread>
 
 using std::cout, std::endl, std::string, std::vector, std::pair, std::ifstream;
+using namespace std::chrono_literals;
 
 flow_board::flow_board() {
     rows = -1;
     cols = -1;
     color_count = 0;
+    solved = false;
     possible_paths = vector<vector<vector<vector<char>>>>(16);
     nodes = vector<vector<char>>();
     solution = vector<vector<char>>();
+    solve_cursor = vector<vector<char>>();
     vector<pair<int, int>> pipe_starts = vector<pair<int, int>>(16, {-1, -1});
     vector<pair<int, int>> pipe_ends = vector<pair<int, int>>(16, {-1, -1});
 }
@@ -28,11 +32,13 @@ flow_board::flow_board(std::string file_name) {
     rows = stoi(r);
     cols = stoi(c);
     color_count = 0;
+    solved = false;
 
     possible_paths = vector<vector<vector<vector<char>>>>(16);
     vector<vector<char>> vec(rows, vector<char>(cols, ' '));
     nodes = vec;
     solution = vec;
+    solve_cursor = vec;
 
     // Sets the values of the graph indexes
     char index = 'X';
@@ -193,6 +199,7 @@ void flow_board::solve() {
                                                                     }
                                                                     if (paths_compatible(smaller_set_of_paths)) {
                                                                         write_solution(set_of_paths);
+                                                                        solved = true;
                                                                         return;
                                                                     }
                                                                 }
@@ -211,6 +218,13 @@ void flow_board::solve() {
             }
         }
     }
+}
+
+void flow_board::solve_with_progress() {
+    std::thread t0([this] {this->solve(); });
+    std::thread t1([this] {this->print_solving_progress(); });
+    t0.join();
+    t1.join();
 }
 
 void flow_board::print_graph(bool letters) {
@@ -315,6 +329,13 @@ void flow_board::print_graph(vector<vector<char>> graph, bool letters) {
         }
     }
     cout << "┘" << endl;
+}
+
+void flow_board::print_solving_progress() {
+    while (!solved) {
+        print_graph(solve_cursor);
+        std::this_thread::sleep_for(1s);
+    }
 }
 
 void flow_board::map_nodes() {
@@ -528,6 +549,7 @@ bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths) {
                         return false;
                     }
                 }
+                solve_cursor = rogue1;
             }
         }
     }

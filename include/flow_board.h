@@ -9,14 +9,17 @@ class flow_board {
         flow_board();
         flow_board(std::string file_name);
         void solve();
+        void solve_with_progress();
         void print_graph(bool letters = false);
         void print_solution(bool letters = false);
     private:
         int rows;
         int cols;
         unsigned int color_count;
+        bool solved;
         std::vector<std::vector<char>> nodes;
         std::vector<std::vector<char>> solution;
+        std::vector<std::vector<char>> solve_cursor;
         std::vector<std::pair<int, int>> pipe_starts;
         std::vector<std::pair<int, int>> pipe_ends;
         std::vector<std::vector<std::vector<std::vector<char>>>> possible_paths;     // red, green, blue, yellow, orange, cyan, magenta, brown, purple, white, gray, lime, beige, navy, teal, pink
@@ -25,6 +28,7 @@ class flow_board {
         bool paths_compatible(std::vector<std::vector<std::vector<char>>> set_of_paths);
         void write_solution(std::vector<std::vector<std::vector<char>>> set_of_paths);
         void print_graph(std::vector<std::vector<char>> graph, bool letters = false);
+        void print_solving_progress();
         std::string color_string(std::string input, char color);
         int color_to_int(char color);
         char int_to_color(int color);

@@ -20,4 +20,9 @@ int main() {
     board4.print_graph();
     board4.solve();
     board4.print_solution();
+
+    flow_board board5 = flow_board("input_files/Classic_Pack/Classic_Pack_7x7_1.txt");
+    board5.print_graph();
+    board5.solve_with_progress();
+    board5.print_solution();
 }
