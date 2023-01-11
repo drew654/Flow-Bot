@@ -11,6 +11,7 @@ flow_board::flow_board() {
     color_count = 0;
     possible_paths = vector<vector<vector<vector<char>>>>(16);
     nodes = vector<vector<char>>();
+    solution = vector<vector<char>>();
     vector<pair<int, int>> pipe_starts = vector<pair<int, int>>(16, {-1, -1});
     vector<pair<int, int>> pipe_ends = vector<pair<int, int>>(16, {-1, -1});
 }
@@ -31,6 +32,7 @@ flow_board::flow_board(std::string file_name) {
     possible_paths = vector<vector<vector<vector<char>>>>(16);
     vector<vector<char>> vec(rows, vector<char>(cols, ' '));
     nodes = vec;
+    solution = vec;
 
     // Sets the values of the graph indexes
     char index = 'X';
@@ -190,8 +192,8 @@ void flow_board::solve() {
                                                                     }
                                                                     if (paths_compatible(smaller_set_of_paths)) {
                                                                         write_solution(set_of_paths);
-                                                                        print_graph();
-                                                                        return;
+                                                                        print_graph(solution, true);
+                                                                        // return;
                                                                     }
                                                                 }
                                                             }
@@ -239,7 +241,61 @@ void flow_board::print_graph(bool letters) {
                     cout << color_string("+", tolower(nodes.at(row).at(col)));
                 }
                 else {
-                    cout << color_string("⬤", tolower(nodes.at(row).at(col)));
+                    cout << color_string("⓿", tolower(nodes.at(row).at(col)));
+                }
+            }
+            cout << " ";
+            if (col == cols - 1) {
+                cout << "│";
+            }
+        }
+        cout << endl;
+    }
+
+    // Print bottom border
+    cout << "└";
+    for (int col = 0; col < cols + 2; ++col) {
+        cout << "─";
+        if (col < cols - 1) {
+            cout << "─";
+        }
+    }
+    cout << "┘" << endl;
+}
+
+void flow_board::print_solution(bool letters) {
+    print_graph(solution, letters);
+}
+
+void flow_board::print_graph(vector<vector<char>> graph, bool letters) {
+    // Print upper border
+    cout << "┌";
+    for (int col = 0; col < cols + 2; ++col) {
+        cout << "─";
+        if (col < cols - 1) {
+            cout << "─";
+        }
+    }
+    cout << "┐" << endl;
+
+    // Print graph and side borders
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            if (col == 0) {
+                cout << "│ ";
+            }
+            if (letters) {
+                cout << color_string(string(1, graph.at(row).at(col)), tolower(graph.at(row).at(col)));
+            }
+            else {
+                if (graph.at(row).at(col) == ' ') {
+                    cout << ' ';
+                }
+                else if (graph.at(row).at(col) == tolower(graph.at(row).at(col))) {
+                    cout << color_string("+", tolower(graph.at(row).at(col)));
+                }
+                else {
+                    cout << color_string("⓿", tolower(graph.at(row).at(col)));
                 }
             }
             cout << " ";
@@ -492,7 +548,7 @@ void flow_board::write_solution(vector<vector<vector<char>>> set_of_paths) {
         for (int row = 0; row < rows; ++row) {
             for (int col = 0; col < cols; ++col) {
                 if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                    nodes.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
+                    solution.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
                 }
             }
         }
@@ -501,74 +557,96 @@ void flow_board::write_solution(vector<vector<vector<char>>> set_of_paths) {
 
 string flow_board::color_string(string input, char color) {
     string result = "";
+    string altered;
     switch (color) {
         // Red
         case 'r':
             result += "\x1b[38;2;255;0;0m";
+            altered = "❶";
             break;
         // Green
         case 'g':
             result += "\x1b[38;2;0;175;0m";
+            altered = "❷";
             break;
         // Blue
         case 'b':
             result += "\x1b[38;2;0;0;255m";
+            altered = "❸";
             break;
         // Yellow
         case 'y':
             result += "\x1b[38;2;255;255;0m";
+            altered = "❹";
             break;
         // Orange
         case 'o':
             result += "\x1b[38;2;255;175;0m";
+            altered = "❺";
             break;
         // Cyan
         case 'c':
             result += "\x1b[38;2;0;215;255m";
+            altered = "❻";
             break;
         // Magenta
         case 'm':
             result += "\x1b[38;2;215;0;175m";
+            altered = "❼";
             break;
         // Brown
         case 'w':
             result += "\x1b[38;2;95;95;0m";
+            altered = "❽";
             break;
         // Purple
         case 'p':
             result += "\x1b[38;2;175;0;255m";
+            altered = "❾";
             break;
         // White
         case 'h':
             result += "\x1b[38;2;255;255;255m";
+            altered = "❿";
             break;
         // Gray
         case 'a':
             result += "\x1b[38;2;128;128;128m";
+            altered = "⓫";
             break;
         // Lime
         case 'l':
             result += "\x1b[38;2;0;255;0m";
+            altered = "⓬";
             break;
         // Beige
         case 'e':
             result += "\x1b[38;2;215;215;175m";
+            altered = "⓭";
             break;
         // Navy
         case 'n':
             result += "\x1b[38;2;0;0;175m";
+            altered = "⓮";
             break;
         // Teal
         case 't':
             result += "\x1b[38;2;0;135;135m";
+            altered = "⓯";
             break;
         // Pink
         case 'k':
             result += "\x1b[38;2;255;175;215m";
+            altered = "⓰";
             break;
     }
     
-    result += input;
+    if (input == "⓿") {
+        result += altered;
+    }
+    else {
+        result += input;
+    }
     result += "\x1b[0m";
 
     return result;
