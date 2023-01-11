@@ -63,6 +63,7 @@ void flow_board::solve() {
         }
     }
 
+    // Test every possible path with each other
     for (unsigned int r = 0; r <= possible_paths.at(color_to_int('r')).size(); ++r) {
         for (unsigned int g = 0; g <= possible_paths.at(color_to_int('g')).size(); ++g) {
             for (unsigned int b = 0; b <= possible_paths.at(color_to_int('b')).size(); ++b) {
@@ -192,8 +193,7 @@ void flow_board::solve() {
                                                                     }
                                                                     if (paths_compatible(smaller_set_of_paths)) {
                                                                         write_solution(set_of_paths);
-                                                                        print_graph(solution, true);
-                                                                        // return;
+                                                                        return;
                                                                     }
                                                                 }
                                                             }
@@ -486,6 +486,7 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
         return;
     }
 
+    // If (row, col) is the pipe start
     if (row == pipe_starts.at(color_to_int(color)).first && col == pipe_starts.at(color_to_int(color)).second) {
         int line_size = 0;
         for (unsigned int i = 0; i < cur.size(); ++i) {
@@ -517,29 +518,19 @@ bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths) {
     for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
         for (int row = 0; row < rows; ++row) {
             for (int col = 0; col < cols; ++col) {
-                if (set_of_paths.at(i).at(row).at(col) != ' ' && rogue1.at(row).at(col) != ' ') {
+                if (rogue1.at(row).at(col) == ' ') {
+                    rogue1.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
+                }
+                // If spot on rogue1 is not available
+                else if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                    // And it's not a node place on itself
                     if (set_of_paths.at(i).at(row).at(col) != rogue1.at(row).at(col)) {
-
                         return false;
                     }
                 }
-                else {
-                    rogue1.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
-                }
             }
         }
     }
-
-    for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
-        for (int row = 0; row < rows; ++row) {
-            for (int col = 0; col < cols; ++col) {
-                if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                    rogue1.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
-                }
-            }
-        }
-    }
-
     return true;
 }
 
