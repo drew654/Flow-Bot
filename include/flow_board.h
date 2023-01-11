@@ -13,6 +13,7 @@ class flow_board {
     private:
         int rows;
         int cols;
+        unsigned int color_count;
         std::vector<std::vector<char>> nodes;
         std::vector<std::pair<int, int>> pipe_starts;
         std::vector<std::pair<int, int>> pipe_ends;
@@ -20,6 +21,7 @@ class flow_board {
         void map_nodes();
         void build_paths_at(int row, int col, char color, std::vector<std::vector<char>> cur);
         bool paths_compatible(std::vector<std::vector<std::vector<char>>> set_of_paths);
+        void write_solution(std::vector<std::vector<std::vector<char>>> set_of_paths);
         std::string color_string(std::string input, char color);
         int color_to_int(char color);
         char int_to_color(int color);

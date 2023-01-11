@@ -8,6 +8,7 @@ using std::cout, std::endl, std::string, std::vector, std::pair, std::ifstream;
 flow_board::flow_board() {
     rows = -1;
     cols = -1;
+    color_count = 0;
     possible_paths = vector<vector<vector<vector<char>>>>(16);
     nodes = vector<vector<char>>();
     vector<pair<int, int>> pipe_starts = vector<pair<int, int>>(16, {-1, -1});
@@ -25,6 +26,7 @@ flow_board::flow_board(std::string file_name) {
     string c = line.substr(line.find(' ') + 1);
     rows = stoi(r);
     cols = stoi(c);
+    color_count = 0;
 
     possible_paths = vector<vector<vector<vector<char>>>>(16);
     vector<vector<char>> vec(rows, vector<char>(cols, ' '));
@@ -59,45 +61,137 @@ void flow_board::solve() {
         }
     }
 
-    for (unsigned int r = 0; r < possible_paths.at(color_to_int('r')).size(); ++r) {
-        for (unsigned int g = 0; g < possible_paths.at(color_to_int('g')).size(); ++g) {
-            for (unsigned int b = 0; b < possible_paths.at(color_to_int('b')).size(); ++b) {
-                for (unsigned int y = 0; y < possible_paths.at(color_to_int('y')).size(); ++y) {
-                    for (unsigned int o = 0; o < possible_paths.at(color_to_int('o')).size(); ++o) {
-                        for (unsigned int c = 0; c < possible_paths.at(color_to_int('c')).size(); ++c) {
-                            for (unsigned int m = 0; m < possible_paths.at(color_to_int('m')).size(); ++m) {
-                                for (unsigned int w = 0; w < possible_paths.at(color_to_int('w')).size(); ++w) {
-                                    for (unsigned int p = 0; p < possible_paths.at(color_to_int('p')).size(); ++p) {
-                                        for (unsigned int h = 0; h < possible_paths.at(color_to_int('h')).size(); ++h) {
-                                            for (unsigned int a = 0; a < possible_paths.at(color_to_int('a')).size(); ++a) {
-                                                for (unsigned int l = 0; l < possible_paths.at(color_to_int('l')).size(); ++l) {
-                                                    for (unsigned int e = 0; e < possible_paths.at(color_to_int('e')).size(); ++e) {
-                                                        for (unsigned int n = 0; n < possible_paths.at(color_to_int('n')).size(); ++n) {
-                                                            for (unsigned int t = 0; t < possible_paths.at(color_to_int('t')).size(); ++t) {
-                                                                for (unsigned int k = 0; k < possible_paths.at(color_to_int('k')).size(); ++k) {
-                                                                    vector<vector<vector<char>>> set_of_paths = {
-                                                                        possible_paths.at(color_to_int('r')).at(r),
-                                                                        possible_paths.at(color_to_int('g')).at(g),
-                                                                        possible_paths.at(color_to_int('b')).at(b),
-                                                                        possible_paths.at(color_to_int('y')).at(y),
-                                                                        possible_paths.at(color_to_int('o')).at(o),
-                                                                        possible_paths.at(color_to_int('c')).at(c),
-                                                                        possible_paths.at(color_to_int('m')).at(m),
-                                                                        possible_paths.at(color_to_int('w')).at(w),
-                                                                        possible_paths.at(color_to_int('p')).at(p),
-                                                                        possible_paths.at(color_to_int('h')).at(h),
-                                                                        possible_paths.at(color_to_int('a')).at(a),
-                                                                        possible_paths.at(color_to_int('l')).at(l),
-                                                                        possible_paths.at(color_to_int('e')).at(e),
-                                                                        possible_paths.at(color_to_int('n')).at(n),
-                                                                        possible_paths.at(color_to_int('t')).at(t),
-                                                                        possible_paths.at(color_to_int('k')).at(k)
-                                                                    };
-                                                                    if (paths_compatible(set_of_paths)) {
-                                                                        cout << "Found solution." << endl;
+    for (unsigned int r = 0; r <= possible_paths.at(color_to_int('r')).size(); ++r) {
+        for (unsigned int g = 0; g <= possible_paths.at(color_to_int('g')).size(); ++g) {
+            for (unsigned int b = 0; b <= possible_paths.at(color_to_int('b')).size(); ++b) {
+                for (unsigned int y = 0; y <= possible_paths.at(color_to_int('y')).size(); ++y) {
+                    for (unsigned int o = 0; o <= possible_paths.at(color_to_int('o')).size(); ++o) {
+                        for (unsigned int c = 0; c <= possible_paths.at(color_to_int('c')).size(); ++c) {
+                            for (unsigned int m = 0; m <= possible_paths.at(color_to_int('m')).size(); ++m) {
+                                for (unsigned int w = 0; w <= possible_paths.at(color_to_int('w')).size(); ++w) {
+                                    for (unsigned int p = 0; p <= possible_paths.at(color_to_int('p')).size(); ++p) {
+                                        for (unsigned int h = 0; h <= possible_paths.at(color_to_int('h')).size(); ++h) {
+                                            for (unsigned int a = 0; a <= possible_paths.at(color_to_int('a')).size(); ++a) {
+                                                for (unsigned int l = 0; l <= possible_paths.at(color_to_int('l')).size(); ++l) {
+                                                    for (unsigned int e = 0; e <= possible_paths.at(color_to_int('e')).size(); ++e) {
+                                                        for (unsigned int n = 0; n <= possible_paths.at(color_to_int('n')).size(); ++n) {
+                                                            for (unsigned int t = 0; t <= possible_paths.at(color_to_int('t')).size(); ++t) {
+                                                                for (unsigned int k = 0; k <= possible_paths.at(color_to_int('k')).size(); ++k) {
+                                                                    vector<vector<vector<char>>> set_of_paths(16);
+                                                                    if (r == possible_paths.at(color_to_int('r')).size()) {
+                                                                        set_of_paths.at(color_to_int('r')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
                                                                     }
                                                                     else {
-                                                                        cout << "No solution." << endl;
+                                                                        set_of_paths.at(color_to_int('r')) = possible_paths.at(color_to_int('r')).at(r);
+                                                                    }
+                                                                    if (g == possible_paths.at(color_to_int('g')).size()) {
+                                                                        set_of_paths.at(color_to_int('g')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('g')) = possible_paths.at(color_to_int('g')).at(g);
+                                                                    }
+                                                                    if (b == possible_paths.at(color_to_int('b')).size()) {
+                                                                        set_of_paths.at(color_to_int('b')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('b')) = possible_paths.at(color_to_int('b')).at(b);
+                                                                    }
+                                                                    if (y == possible_paths.at(color_to_int('y')).size()) {
+                                                                        set_of_paths.at(color_to_int('y')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('y')) = possible_paths.at(color_to_int('y')).at(y);
+                                                                    }
+                                                                    if (o == possible_paths.at(color_to_int('o')).size()) {
+                                                                        set_of_paths.at(color_to_int('o')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('o')) = possible_paths.at(color_to_int('o')).at(o);
+                                                                    }
+                                                                    if (c == possible_paths.at(color_to_int('c')).size()) {
+                                                                        set_of_paths.at(color_to_int('c')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('c')) = possible_paths.at(color_to_int('c')).at(c);
+                                                                    }
+                                                                    if (m == possible_paths.at(color_to_int('m')).size()) {
+                                                                        set_of_paths.at(color_to_int('m')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('m')) = possible_paths.at(color_to_int('m')).at(m);
+                                                                    }
+                                                                    if (w == possible_paths.at(color_to_int('w')).size()) {
+                                                                        set_of_paths.at(color_to_int('w')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('w')) = possible_paths.at(color_to_int('w')).at(w);
+                                                                    }
+                                                                    if (p == possible_paths.at(color_to_int('p')).size()) {
+                                                                        set_of_paths.at(color_to_int('p')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('p')) = possible_paths.at(color_to_int('p')).at(p);
+                                                                    }
+                                                                    if (h == possible_paths.at(color_to_int('h')).size()) {
+                                                                        set_of_paths.at(color_to_int('h')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('h')) = possible_paths.at(color_to_int('h')).at(h);
+                                                                    }
+                                                                    if (a == possible_paths.at(color_to_int('a')).size()) {
+                                                                        set_of_paths.at(color_to_int('a')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('a')) = possible_paths.at(color_to_int('a')).at(a);
+                                                                    }
+                                                                    if (l == possible_paths.at(color_to_int('l')).size()) {
+                                                                        set_of_paths.at(color_to_int('l')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('l')) = possible_paths.at(color_to_int('l')).at(l);
+                                                                    }
+                                                                    if (e == possible_paths.at(color_to_int('e')).size()) {
+                                                                        set_of_paths.at(color_to_int('e')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('e')) = possible_paths.at(color_to_int('e')).at(e);
+                                                                    }
+                                                                    if (n == possible_paths.at(color_to_int('n')).size()) {
+                                                                        set_of_paths.at(color_to_int('n')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('n')) = possible_paths.at(color_to_int('n')).at(n);
+                                                                    }
+                                                                    if (t == possible_paths.at(color_to_int('t')).size()) {
+                                                                        set_of_paths.at(color_to_int('t')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('t')) = possible_paths.at(color_to_int('t')).at(t);
+                                                                    }
+                                                                    if (k == possible_paths.at(color_to_int('k')).size()) {
+                                                                        set_of_paths.at(color_to_int('k')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                    }
+                                                                    else {
+                                                                        set_of_paths.at(color_to_int('k')) = possible_paths.at(color_to_int('k')).at(k);
+                                                                    }
+                                                                    vector<vector<vector<char>>> smaller_set_of_paths;
+                                                                    for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
+                                                                        bool empty_set = true;
+                                                                        for (int row = 0; row < rows; ++row) {
+                                                                            for (int col = 0; col < cols; ++col) {
+                                                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                                    empty_set = false;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        if (!empty_set) {
+                                                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                                        }
+                                                                    }
+                                                                    if (paths_compatible(smaller_set_of_paths)) {
+                                                                        write_solution(set_of_paths);
+                                                                        print_graph();
+                                                                        return;
                                                                     }
                                                                 }
                                                             }
@@ -177,6 +271,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(0) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'G':
@@ -185,6 +280,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(1) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'B':
@@ -193,6 +289,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(2) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'Y':
@@ -201,6 +298,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(3) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'O':
@@ -209,6 +307,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(4) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'C':
@@ -217,6 +316,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(5) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'M':
@@ -225,6 +325,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(6) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'W':
@@ -233,6 +334,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(7) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'P':
@@ -241,6 +343,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(8) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'H':
@@ -249,6 +352,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(9) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'A':
@@ -257,6 +361,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(10) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'L':
@@ -265,6 +370,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(11) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'E':
@@ -273,6 +379,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(12) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'N':
@@ -281,6 +388,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(13) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'T':
@@ -289,6 +397,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(14) = {row, col};
+                        ++color_count;
                     }
                 break;
                 case 'K':
@@ -297,6 +406,7 @@ void flow_board::map_nodes() {
                     }
                     else {
                         pipe_ends.at(15) = {row, col};
+                        ++color_count;
                     }
                 break;
             }
@@ -322,8 +432,8 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
 
     if (row == pipe_starts.at(color_to_int(color)).first && col == pipe_starts.at(color_to_int(color)).second) {
         int line_size = 0;
-        for (int i = 0; i < cur.size(); ++i) {
-            for (int j = 0; j < cur.at(i).size(); ++j) {
+        for (unsigned int i = 0; i < cur.size(); ++i) {
+            for (unsigned int j = 0; j < cur.at(i).size(); ++j) {
                 if (cur.at(i).at(j) == color) {
                     ++line_size;
                 }
@@ -343,9 +453,50 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
     build_paths_at(row - 1, col, color, cur);
 }
 
-// TODO: Complete this
 bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths) {
-    return false;
+    if (set_of_paths.size() != color_count) {
+        return false;
+    }
+    vector<vector<char>> rogue1(rows, vector<char>(cols, ' '));
+    for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                if (set_of_paths.at(i).at(row).at(col) != ' ' && rogue1.at(row).at(col) != ' ') {
+                    if (set_of_paths.at(i).at(row).at(col) != rogue1.at(row).at(col)) {
+
+                        return false;
+                    }
+                }
+                else {
+                    rogue1.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
+                }
+            }
+        }
+    }
+
+    for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                    rogue1.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+void flow_board::write_solution(vector<vector<vector<char>>> set_of_paths) {
+    for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                    nodes.at(row).at(col) = set_of_paths.at(i).at(row).at(col);
+                }
+            }
+        }
+    }
 }
 
 string flow_board::color_string(string input, char color) {
