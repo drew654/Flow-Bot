@@ -40,14 +40,25 @@ flow_board::flow_board(std::string file_name) {
         }
     }
     inFS.close();
-    vector<pair<int, int>> pipe_starts = vector<pair<int, int>>(16, {-1, -1});
-    vector<pair<int, int>> pipe_ends = vector<pair<int, int>>(16, {-1, -1});
+    vector<pair<int, int>> vec2(16, {-1, -1});
+    pipe_starts = vec2;
+    pipe_ends = vec2;
 }
 
 void flow_board::solve() {
     // Map location of every pipe start and end
     map_nodes();
     cout << "nodes mapped" << endl;
+    cout << "start points" << endl;
+    for (auto i : pipe_starts) {
+        cout << "(" << i.first << ", " << i.second << ")" << endl;
+    }
+    cout << endl;
+    cout << "end points" << endl;
+    for (auto i : pipe_ends) {
+        cout << "(" << i.first << ", " << i.second << ")" << endl;
+    }
+    cout << endl;
 
     // Find possible paths for each pipe
     for (unsigned int i = 0; i < pipe_starts.size(); ++i) {
@@ -58,9 +69,17 @@ void flow_board::solve() {
             build_paths_at(pipe_starts.at(i).first, pipe_starts.at(i).second, int_to_color(i), cur);
         }
     }
-    // TODO: Figure out why there are no paths
     cout << "found possible paths for each pipe" << endl;
     cout << "red paths: " << possible_paths.at(0).size() << endl;
+    for (int i = 0; i < possible_paths.at(0).size(); ++i) {
+        for (int j = 0; j < possible_paths.at(0).at(i).size(); ++j) {
+            for (int k = 0; k < possible_paths.at(0).at(i).at(j).size(); ++k) {
+                cout << possible_paths.at(0).at(i).at(j).at(k) << ' ';
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
     cout << "green paths: " << possible_paths.at(1).size() << endl;
     cout << "blue paths: " << possible_paths.at(2).size() << endl;
     cout << "yellow paths: " << possible_paths.at(3).size() << endl;
@@ -178,7 +197,7 @@ void flow_board::map_nodes() {
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < cols; ++col) {
             switch (nodes.at(row).at(col)) {
-                case 'r':
+                case 'R':
                     if (pipe_starts.at(0).first == -1 && pipe_starts.at(0).second == -1) {
                         pipe_starts.at(0) = {row, col};
                     }
@@ -186,7 +205,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(0) = {row, col};
                     }
                 break;
-                case 'g':
+                case 'G':
                     if (pipe_starts.at(1).first == -1 && pipe_starts.at(1).second == -1) {
                         pipe_starts.at(1) = {row, col};
                     }
@@ -194,7 +213,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(1) = {row, col};
                     }
                 break;
-                case 'b':
+                case 'B':
                     if (pipe_starts.at(2).first == -1 && pipe_starts.at(2).second == -1) {
                         pipe_starts.at(2) = {row, col};
                     }
@@ -202,7 +221,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(2) = {row, col};
                     }
                 break;
-                case 'y':
+                case 'Y':
                     if (pipe_starts.at(3).first == -1 && pipe_starts.at(3).second == -1) {
                         pipe_starts.at(3) = {row, col};
                     }
@@ -210,7 +229,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(3) = {row, col};
                     }
                 break;
-                case 'o':
+                case 'O':
                     if (pipe_starts.at(4).first == -1 && pipe_starts.at(4).second == -1) {
                         pipe_starts.at(4) = {row, col};
                     }
@@ -218,7 +237,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(4) = {row, col};
                     }
                 break;
-                case 'c':
+                case 'C':
                     if (pipe_starts.at(5).first == -1 && pipe_starts.at(5).second == -1) {
                         pipe_starts.at(5) = {row, col};
                     }
@@ -226,7 +245,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(5) = {row, col};
                     }
                 break;
-                case 'm':
+                case 'M':
                     if (pipe_starts.at(6).first == -1 && pipe_starts.at(6).second == -1) {
                         pipe_starts.at(6) = {row, col};
                     }
@@ -234,7 +253,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(6) = {row, col};
                     }
                 break;
-                case 'w':
+                case 'W':
                     if (pipe_starts.at(7).first == -1 && pipe_starts.at(7).second == -1) {
                         pipe_starts.at(7) = {row, col};
                     }
@@ -242,7 +261,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(7) = {row, col};
                     }
                 break;
-                case 'p':
+                case 'P':
                     if (pipe_starts.at(8).first == -1 && pipe_starts.at(8).second == -1) {
                         pipe_starts.at(8) = {row, col};
                     }
@@ -250,7 +269,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(8) = {row, col};
                     }
                 break;
-                case 'h':
+                case 'H':
                     if (pipe_starts.at(9).first == -1 && pipe_starts.at(9).second == -1) {
                         pipe_starts.at(9) = {row, col};
                     }
@@ -258,7 +277,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(9) = {row, col};
                     }
                 break;
-                case 'a':
+                case 'A':
                     if (pipe_starts.at(10).first == -1 && pipe_starts.at(10).second == -1) {
                         pipe_starts.at(10) = {row, col};
                     }
@@ -266,7 +285,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(10) = {row, col};
                     }
                 break;
-                case 'l':
+                case 'L':
                     if (pipe_starts.at(11).first == -1 && pipe_starts.at(11).second == -1) {
                         pipe_starts.at(11) = {row, col};
                     }
@@ -274,7 +293,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(11) = {row, col};
                     }
                 break;
-                case 'e':
+                case 'E':
                     if (pipe_starts.at(12).first == -1 && pipe_starts.at(12).second == -1) {
                         pipe_starts.at(12) = {row, col};
                     }
@@ -282,7 +301,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(12) = {row, col};
                     }
                 break;
-                case 'n':
+                case 'N':
                     if (pipe_starts.at(13).first == -1 && pipe_starts.at(13).second == -1) {
                         pipe_starts.at(13) = {row, col};
                     }
@@ -290,7 +309,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(13) = {row, col};
                     }
                 break;
-                case 't':
+                case 'T':
                     if (pipe_starts.at(14).first == -1 && pipe_starts.at(14).second == -1) {
                         pipe_starts.at(14) = {row, col};
                     }
@@ -298,7 +317,7 @@ void flow_board::map_nodes() {
                         pipe_ends.at(14) = {row, col};
                     }
                 break;
-                case 'k':
+                case 'K':
                     if (pipe_starts.at(15).first == -1 && pipe_starts.at(15).second == -1) {
                         pipe_starts.at(15) = {row, col};
                     }
@@ -312,6 +331,9 @@ void flow_board::map_nodes() {
 }
 
 void flow_board::build_paths_at(int row, int col, char color, vector<vector<char>> cur) {    
+    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+        return;
+    }
     if (nodes.at(row).at(col) == toupper(color)) {
         // If (row, col) is the pipe end
         if (row == pipe_ends.at(color_to_int(color)).first && col == pipe_ends.at(color_to_int(color)).second) {
@@ -320,20 +342,16 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
             return;
         }
     }
-    else if (row < 0 || row >= rows || col < 0 || cols >= 0 || cur.at(row).at(col) != ' ') {
+    else if (cur.at(row).at(col) != ' ') {
         return;
     }
 
     cur.at(row).at(col) = color;
 
-    build_paths_at(row + 1, col - 1, color, cur);
     build_paths_at(row + 1, col, color, cur);
-    build_paths_at(row + 1, col + 1, color, cur);
     build_paths_at(row, col - 1, color, cur);
     build_paths_at(row, col + 1, color, cur);
-    build_paths_at(row - 1, col - 1, color, cur);
     build_paths_at(row - 1, col, color, cur);
-    build_paths_at(row - 1, col + 1, color, cur);
 }
 
 // TODO: Complete this
