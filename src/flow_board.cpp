@@ -73,120 +73,359 @@ void flow_board::solve() {
     sort_possible_paths();
 
     // Test every possible path with each other
+    vector<vector<vector<char>>> smaller_set_of_paths;
     for (unsigned int r = 0; r <= possible_paths.at(color_to_int('r')).size(); ++r) {
+        vector<vector<vector<char>>> set_of_paths(16);
+        if (r == possible_paths.at(color_to_int('r')).size()) {
+            set_of_paths.at(color_to_int('r')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+        }
+        else {
+            set_of_paths.at(color_to_int('r')) = possible_paths.at(color_to_int('r')).at(r).first;
+        }
         for (unsigned int g = 0; g <= possible_paths.at(color_to_int('g')).size(); ++g) {
+            if (g == possible_paths.at(color_to_int('g')).size()) {
+                set_of_paths.at(color_to_int('g')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+            }
+            else {
+                set_of_paths.at(color_to_int('g')) = possible_paths.at(color_to_int('g')).at(g).first;
+                smaller_set_of_paths.clear();
+                for (int i = 0; i < color_to_int('g') + 1; ++i) {
+                    bool empty_set = true;
+                    for (int row = 0; row < rows; ++row) {
+                        for (int col = 0; col < cols; ++col) {
+                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                empty_set = false;
+                            }
+                        }
+                    }
+                    if (!empty_set) {
+                        smaller_set_of_paths.push_back(set_of_paths.at(i));
+                    }
+                }
+                if (!paths_compatible(smaller_set_of_paths, color_to_int('g') + 1)) {
+                    continue;
+                }
+            }
             for (unsigned int b = 0; b <= possible_paths.at(color_to_int('b')).size(); ++b) {
+                if (b == possible_paths.at(color_to_int('b')).size()) {
+                    set_of_paths.at(color_to_int('b')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                }
+                else {
+                    set_of_paths.at(color_to_int('b')) = possible_paths.at(color_to_int('b')).at(b).first;
+                    smaller_set_of_paths.clear();
+                    for (int i = 0; i < color_to_int('b') + 1; ++i) {
+                        bool empty_set = true;
+                        for (int row = 0; row < rows; ++row) {
+                            for (int col = 0; col < cols; ++col) {
+                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                    empty_set = false;
+                                }
+                            }
+                        }
+                        if (!empty_set) {
+                            smaller_set_of_paths.push_back(set_of_paths.at(i));
+                        }
+                    }
+                    if (!paths_compatible(smaller_set_of_paths, color_to_int('b') + 1)) {
+                        continue;
+                    }
+                }
                 for (unsigned int y = 0; y <= possible_paths.at(color_to_int('y')).size(); ++y) {
+                    if (y == possible_paths.at(color_to_int('y')).size()) {
+                        set_of_paths.at(color_to_int('y')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                    }
+                    else {
+                        set_of_paths.at(color_to_int('y')) = possible_paths.at(color_to_int('y')).at(y).first;
+                        smaller_set_of_paths.clear();
+                        for (int i = 0; i < color_to_int('y') + 1; ++i) {
+                            bool empty_set = true;
+                            for (int row = 0; row < rows; ++row) {
+                                for (int col = 0; col < cols; ++col) {
+                                    if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                        empty_set = false;
+                                    }
+                                }
+                            }
+                            if (!empty_set) {
+                                smaller_set_of_paths.push_back(set_of_paths.at(i));
+                            }
+                        }
+                        if (!paths_compatible(smaller_set_of_paths, color_to_int('y') + 1)) {
+                            continue;
+                        }
+                    }
                     for (unsigned int o = 0; o <= possible_paths.at(color_to_int('o')).size(); ++o) {
+                        if (o == possible_paths.at(color_to_int('o')).size()) {
+                            set_of_paths.at(color_to_int('o')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                        }
+                        else {
+                            set_of_paths.at(color_to_int('o')) = possible_paths.at(color_to_int('o')).at(o).first;
+                            smaller_set_of_paths.clear();
+                            for (int i = 0; i < color_to_int('o') + 1; ++i) {
+                                bool empty_set = true;
+                                for (int row = 0; row < rows; ++row) {
+                                    for (int col = 0; col < cols; ++col) {
+                                        if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                            empty_set = false;
+                                        }
+                                    }
+                                }
+                                if (!empty_set) {
+                                    smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                }
+                            }
+                            if (!paths_compatible(smaller_set_of_paths, color_to_int('o') + 1)) {
+                                continue;
+                            }
+                        }
                         for (unsigned int c = 0; c <= possible_paths.at(color_to_int('c')).size(); ++c) {
+                            if (c == possible_paths.at(color_to_int('c')).size()) {
+                                set_of_paths.at(color_to_int('c')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                            }
+                            else {
+                                set_of_paths.at(color_to_int('c')) = possible_paths.at(color_to_int('c')).at(c).first;
+                                smaller_set_of_paths.clear();
+                                for (int i = 0; i < color_to_int('c') + 1; ++i) {
+                                    bool empty_set = true;
+                                    for (int row = 0; row < rows; ++row) {
+                                        for (int col = 0; col < cols; ++col) {
+                                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                empty_set = false;
+                                            }
+                                        }
+                                    }
+                                    if (!empty_set) {
+                                        smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                    }
+                                }
+                                if (!paths_compatible(smaller_set_of_paths, color_to_int('c') + 1)) {
+                                    continue;
+                                }
+                            }
                             for (unsigned int m = 0; m <= possible_paths.at(color_to_int('m')).size(); ++m) {
+                                if (m == possible_paths.at(color_to_int('m')).size()) {
+                                    set_of_paths.at(color_to_int('m')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                }
+                                else {
+                                    set_of_paths.at(color_to_int('m')) = possible_paths.at(color_to_int('m')).at(m).first;
+                                    smaller_set_of_paths.clear();
+                                    for (int i = 0; i < color_to_int('m') + 1; ++i) {
+                                        bool empty_set = true;
+                                        for (int row = 0; row < rows; ++row) {
+                                            for (int col = 0; col < cols; ++col) {
+                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                    empty_set = false;
+                                                }
+                                            }
+                                        }
+                                        if (!empty_set) {
+                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                        }
+                                    }
+                                    if (!paths_compatible(smaller_set_of_paths, color_to_int('m') + 1)) {
+                                        continue;
+                                    }
+                                }
                                 for (unsigned int w = 0; w <= possible_paths.at(color_to_int('w')).size(); ++w) {
+                                    if (w == possible_paths.at(color_to_int('w')).size()) {
+                                        set_of_paths.at(color_to_int('w')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                    }
+                                    else {
+                                        set_of_paths.at(color_to_int('w')) = possible_paths.at(color_to_int('w')).at(w).first;
+                                        smaller_set_of_paths.clear();
+                                        for (int i = 0; i < color_to_int('w') + 1; ++i) {
+                                            bool empty_set = true;
+                                            for (int row = 0; row < rows; ++row) {
+                                                for (int col = 0; col < cols; ++col) {
+                                                    if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                        empty_set = false;
+                                                    }
+                                                }
+                                            }
+                                            if (!empty_set) {
+                                                smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                            }
+                                        }
+                                        if (!paths_compatible(smaller_set_of_paths, color_to_int('w') + 1)) {
+                                            continue;
+                                        }
+                                    }
                                     for (unsigned int p = 0; p <= possible_paths.at(color_to_int('p')).size(); ++p) {
+                                        if (p == possible_paths.at(color_to_int('p')).size()) {
+                                            set_of_paths.at(color_to_int('p')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                        }
+                                        else {
+                                            set_of_paths.at(color_to_int('p')) = possible_paths.at(color_to_int('p')).at(p).first;
+                                            smaller_set_of_paths.clear();
+                                            for (int i = 0; i < color_to_int('p') + 1; ++i) {
+                                                bool empty_set = true;
+                                                for (int row = 0; row < rows; ++row) {
+                                                    for (int col = 0; col < cols; ++col) {
+                                                        if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                            empty_set = false;
+                                                        }
+                                                    }
+                                                }
+                                                if (!empty_set) {
+                                                    smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                }
+                                            }
+                                            if (!paths_compatible(smaller_set_of_paths, color_to_int('p') + 1)) {
+                                                continue;
+                                            }
+                                        }
                                         for (unsigned int h = 0; h <= possible_paths.at(color_to_int('h')).size(); ++h) {
+                                            if (h == possible_paths.at(color_to_int('h')).size()) {
+                                                set_of_paths.at(color_to_int('h')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                            }
+                                            else {
+                                                set_of_paths.at(color_to_int('h')) = possible_paths.at(color_to_int('h')).at(h).first;
+                                                smaller_set_of_paths.clear();
+                                                for (int i = 0; i < color_to_int('h') + 1; ++i) {
+                                                    bool empty_set = true;
+                                                    for (int row = 0; row < rows; ++row) {
+                                                        for (int col = 0; col < cols; ++col) {
+                                                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                empty_set = false;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (!empty_set) {
+                                                        smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                    }
+                                                }
+                                                if (!paths_compatible(smaller_set_of_paths, color_to_int('h') + 1)) {
+                                                    continue;
+                                                }
+                                            }
                                             for (unsigned int a = 0; a <= possible_paths.at(color_to_int('a')).size(); ++a) {
+                                                if (a == possible_paths.at(color_to_int('a')).size()) {
+                                                    set_of_paths.at(color_to_int('a')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                }
+                                                else {
+                                                    set_of_paths.at(color_to_int('a')) = possible_paths.at(color_to_int('a')).at(a).first;
+                                                    smaller_set_of_paths.clear();
+                                                    for (int i = 0; i < color_to_int('a') + 1; ++i) {
+                                                        bool empty_set = true;
+                                                        for (int row = 0; row < rows; ++row) {
+                                                            for (int col = 0; col < cols; ++col) {
+                                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                    empty_set = false;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (!empty_set) {
+                                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                        }
+                                                    }
+                                                    if (!paths_compatible(smaller_set_of_paths, color_to_int('a') + 1)) {
+                                                        continue;
+                                                    }
+                                                }
                                                 for (unsigned int l = 0; l <= possible_paths.at(color_to_int('l')).size(); ++l) {
+                                                    if (l == possible_paths.at(color_to_int('l')).size()) {
+                                                        set_of_paths.at(color_to_int('l')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                    }
+                                                    else {
+                                                        set_of_paths.at(color_to_int('l')) = possible_paths.at(color_to_int('l')).at(l).first;
+                                                        smaller_set_of_paths.clear();
+                                                        for (int i = 0; i < color_to_int('l') + 1; ++i) {
+                                                            bool empty_set = true;
+                                                            for (int row = 0; row < rows; ++row) {
+                                                                for (int col = 0; col < cols; ++col) {
+                                                                    if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                        empty_set = false;
+                                                                    }
+                                                                }
+                                                            }
+                                                            if (!empty_set) {
+                                                                smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                            }
+                                                        }
+                                                        if (!paths_compatible(smaller_set_of_paths, color_to_int('l') + 1)) {
+                                                            continue;
+                                                        }
+                                                    }
                                                     for (unsigned int e = 0; e <= possible_paths.at(color_to_int('e')).size(); ++e) {
+                                                        if (e == possible_paths.at(color_to_int('e')).size()) {
+                                                            set_of_paths.at(color_to_int('e')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                        }
+                                                        else {
+                                                            set_of_paths.at(color_to_int('e')) = possible_paths.at(color_to_int('e')).at(e).first;
+                                                            smaller_set_of_paths.clear();
+                                                            for (int i = 0; i < color_to_int('e') + 1; ++i) {
+                                                                bool empty_set = true;
+                                                                for (int row = 0; row < rows; ++row) {
+                                                                    for (int col = 0; col < cols; ++col) {
+                                                                        if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                            empty_set = false;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                if (!empty_set) {
+                                                                    smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                                }
+                                                            }
+                                                            if (!paths_compatible(smaller_set_of_paths, color_to_int('e') + 1)) {
+                                                                continue;
+                                                            }
+                                                        }
                                                         for (unsigned int n = 0; n <= possible_paths.at(color_to_int('n')).size(); ++n) {
+                                                            if (n == possible_paths.at(color_to_int('n')).size()) {
+                                                                set_of_paths.at(color_to_int('n')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                            }
+                                                            else {
+                                                                set_of_paths.at(color_to_int('n')) = possible_paths.at(color_to_int('n')).at(n).first;
+                                                                smaller_set_of_paths.clear();
+                                                                for (int i = 0; i < color_to_int('n') + 1; ++i) {
+                                                                    bool empty_set = true;
+                                                                    for (int row = 0; row < rows; ++row) {
+                                                                        for (int col = 0; col < cols; ++col) {
+                                                                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                                empty_set = false;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    if (!empty_set) {
+                                                                        smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                                    }
+                                                                }
+                                                                if (!paths_compatible(smaller_set_of_paths, color_to_int('n') + 1)) {
+                                                                    continue;
+                                                                }
+                                                            }
                                                             for (unsigned int t = 0; t <= possible_paths.at(color_to_int('t')).size(); ++t) {
+                                                                if (t == possible_paths.at(color_to_int('t')).size()) {
+                                                                    set_of_paths.at(color_to_int('t')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
+                                                                }
+                                                                else {
+                                                                    set_of_paths.at(color_to_int('t')) = possible_paths.at(color_to_int('t')).at(t).first;
+                                                                    smaller_set_of_paths.clear();
+                                                                    for (int i = 0; i < color_to_int('t') + 1; ++i) {
+                                                                        bool empty_set = true;
+                                                                        for (int row = 0; row < rows; ++row) {
+                                                                            for (int col = 0; col < cols; ++col) {
+                                                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                                                                                    empty_set = false;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        if (!empty_set) {
+                                                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
+                                                                        }
+                                                                    }
+                                                                    if (!paths_compatible(smaller_set_of_paths, color_to_int('t') + 1)) {
+                                                                        continue;
+                                                                    }
+                                                                }
                                                                 for (unsigned int k = 0; k <= possible_paths.at(color_to_int('k')).size(); ++k) {
-                                                                    vector<vector<vector<char>>> set_of_paths(16);
-                                                                    if (r == possible_paths.at(color_to_int('r')).size()) {
-                                                                        set_of_paths.at(color_to_int('r')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('r')) = possible_paths.at(color_to_int('r')).at(r).first;
-                                                                    }
-                                                                    if (g == possible_paths.at(color_to_int('g')).size()) {
-                                                                        set_of_paths.at(color_to_int('g')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('g')) = possible_paths.at(color_to_int('g')).at(g).first;
-                                                                    }
-                                                                    if (b == possible_paths.at(color_to_int('b')).size()) {
-                                                                        set_of_paths.at(color_to_int('b')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('b')) = possible_paths.at(color_to_int('b')).at(b).first;
-                                                                    }
-                                                                    if (y == possible_paths.at(color_to_int('y')).size()) {
-                                                                        set_of_paths.at(color_to_int('y')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('y')) = possible_paths.at(color_to_int('y')).at(y).first;
-                                                                    }
-                                                                    if (o == possible_paths.at(color_to_int('o')).size()) {
-                                                                        set_of_paths.at(color_to_int('o')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('o')) = possible_paths.at(color_to_int('o')).at(o).first;
-                                                                    }
-                                                                    if (c == possible_paths.at(color_to_int('c')).size()) {
-                                                                        set_of_paths.at(color_to_int('c')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('c')) = possible_paths.at(color_to_int('c')).at(c).first;
-                                                                    }
-                                                                    if (m == possible_paths.at(color_to_int('m')).size()) {
-                                                                        set_of_paths.at(color_to_int('m')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('m')) = possible_paths.at(color_to_int('m')).at(m).first;
-                                                                    }
-                                                                    if (w == possible_paths.at(color_to_int('w')).size()) {
-                                                                        set_of_paths.at(color_to_int('w')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('w')) = possible_paths.at(color_to_int('w')).at(w).first;
-                                                                    }
-                                                                    if (p == possible_paths.at(color_to_int('p')).size()) {
-                                                                        set_of_paths.at(color_to_int('p')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('p')) = possible_paths.at(color_to_int('p')).at(p).first;
-                                                                    }
-                                                                    if (h == possible_paths.at(color_to_int('h')).size()) {
-                                                                        set_of_paths.at(color_to_int('h')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('h')) = possible_paths.at(color_to_int('h')).at(h).first;
-                                                                    }
-                                                                    if (a == possible_paths.at(color_to_int('a')).size()) {
-                                                                        set_of_paths.at(color_to_int('a')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('a')) = possible_paths.at(color_to_int('a')).at(a).first;
-                                                                    }
-                                                                    if (l == possible_paths.at(color_to_int('l')).size()) {
-                                                                        set_of_paths.at(color_to_int('l')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('l')) = possible_paths.at(color_to_int('l')).at(l).first;
-                                                                    }
-                                                                    if (e == possible_paths.at(color_to_int('e')).size()) {
-                                                                        set_of_paths.at(color_to_int('e')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('e')) = possible_paths.at(color_to_int('e')).at(e).first;
-                                                                    }
-                                                                    if (n == possible_paths.at(color_to_int('n')).size()) {
-                                                                        set_of_paths.at(color_to_int('n')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('n')) = possible_paths.at(color_to_int('n')).at(n).first;
-                                                                    }
-                                                                    if (t == possible_paths.at(color_to_int('t')).size()) {
-                                                                        set_of_paths.at(color_to_int('t')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
-                                                                    }
-                                                                    else {
-                                                                        set_of_paths.at(color_to_int('t')) = possible_paths.at(color_to_int('t')).at(t).first;
-                                                                    }
                                                                     if (k == possible_paths.at(color_to_int('k')).size()) {
                                                                         set_of_paths.at(color_to_int('k')) = vector<vector<char>>(rows, vector<char>(cols, ' '));
                                                                     }
                                                                     else {
                                                                         set_of_paths.at(color_to_int('k')) = possible_paths.at(color_to_int('k')).at(k).first;
                                                                     }
-                                                                    vector<vector<vector<char>>> smaller_set_of_paths;
+                                                                    smaller_set_of_paths.clear();
                                                                     for (unsigned int i = 0; i < set_of_paths.size(); ++i) {
                                                                         bool empty_set = true;
                                                                         for (int row = 0; row < rows; ++row) {
@@ -200,7 +439,7 @@ void flow_board::solve() {
                                                                             smaller_set_of_paths.push_back(set_of_paths.at(i));
                                                                         }
                                                                     }
-                                                                    if (paths_compatible(smaller_set_of_paths)) {
+                                                                    if (paths_compatible(smaller_set_of_paths, color_count)) {
                                                                         write_solution(set_of_paths);
                                                                         solved = true;
                                                                         return;
@@ -560,8 +799,9 @@ void flow_board::sort_possible_paths() {
     }
 }
 
-bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths) {
-    if (set_of_paths.size() != color_count) {
+bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths, unsigned int n) {
+    if (set_of_paths.size() != n) {
+        // cout << "set size " << set_of_paths.size() << " != n " << n << endl;
         return false;
     }
     vector<vector<char>> rogue1(rows, vector<char>(cols, ' '));
