@@ -25,4 +25,9 @@ int main() {
     board5.print_graph();
     board5.solve();
     board5.print_solution();
+
+    flow_board board6 = flow_board("input_files/Classic_Pack/Classic_Pack_8x8_1.txt");
+    board6.print_graph();
+    board6.solve_with_progress();
+    board6.print_solution();
 }

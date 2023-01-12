@@ -88,20 +88,7 @@ void flow_board::solve() {
             }
             else {
                 set_of_paths.at(color_to_int('g')) = possible_paths.at(color_to_int('g')).at(g).first;
-                smaller_set_of_paths.clear();
-                for (int i = 0; i < color_to_int('g') + 1; ++i) {
-                    bool empty_set = true;
-                    for (int row = 0; row < rows; ++row) {
-                        for (int col = 0; col < cols; ++col) {
-                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                empty_set = false;
-                            }
-                        }
-                    }
-                    if (!empty_set) {
-                        smaller_set_of_paths.push_back(set_of_paths.at(i));
-                    }
-                }
+                smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('g') + 1);
                 if (!paths_compatible(smaller_set_of_paths, color_to_int('g') + 1)) {
                     continue;
                 }
@@ -112,20 +99,7 @@ void flow_board::solve() {
                 }
                 else {
                     set_of_paths.at(color_to_int('b')) = possible_paths.at(color_to_int('b')).at(b).first;
-                    smaller_set_of_paths.clear();
-                    for (int i = 0; i < color_to_int('b') + 1; ++i) {
-                        bool empty_set = true;
-                        for (int row = 0; row < rows; ++row) {
-                            for (int col = 0; col < cols; ++col) {
-                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                    empty_set = false;
-                                }
-                            }
-                        }
-                        if (!empty_set) {
-                            smaller_set_of_paths.push_back(set_of_paths.at(i));
-                        }
-                    }
+                    smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('b') + 1);
                     if (!paths_compatible(smaller_set_of_paths, color_to_int('b') + 1)) {
                         continue;
                     }
@@ -136,20 +110,7 @@ void flow_board::solve() {
                     }
                     else {
                         set_of_paths.at(color_to_int('y')) = possible_paths.at(color_to_int('y')).at(y).first;
-                        smaller_set_of_paths.clear();
-                        for (int i = 0; i < color_to_int('y') + 1; ++i) {
-                            bool empty_set = true;
-                            for (int row = 0; row < rows; ++row) {
-                                for (int col = 0; col < cols; ++col) {
-                                    if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                        empty_set = false;
-                                    }
-                                }
-                            }
-                            if (!empty_set) {
-                                smaller_set_of_paths.push_back(set_of_paths.at(i));
-                            }
-                        }
+                        smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('y') + 1);
                         if (!paths_compatible(smaller_set_of_paths, color_to_int('y') + 1)) {
                             continue;
                         }
@@ -160,20 +121,7 @@ void flow_board::solve() {
                         }
                         else {
                             set_of_paths.at(color_to_int('o')) = possible_paths.at(color_to_int('o')).at(o).first;
-                            smaller_set_of_paths.clear();
-                            for (int i = 0; i < color_to_int('o') + 1; ++i) {
-                                bool empty_set = true;
-                                for (int row = 0; row < rows; ++row) {
-                                    for (int col = 0; col < cols; ++col) {
-                                        if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                            empty_set = false;
-                                        }
-                                    }
-                                }
-                                if (!empty_set) {
-                                    smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                }
-                            }
+                            smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('o') + 1);
                             if (!paths_compatible(smaller_set_of_paths, color_to_int('o') + 1)) {
                                 continue;
                             }
@@ -184,20 +132,7 @@ void flow_board::solve() {
                             }
                             else {
                                 set_of_paths.at(color_to_int('c')) = possible_paths.at(color_to_int('c')).at(c).first;
-                                smaller_set_of_paths.clear();
-                                for (int i = 0; i < color_to_int('c') + 1; ++i) {
-                                    bool empty_set = true;
-                                    for (int row = 0; row < rows; ++row) {
-                                        for (int col = 0; col < cols; ++col) {
-                                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                empty_set = false;
-                                            }
-                                        }
-                                    }
-                                    if (!empty_set) {
-                                        smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                    }
-                                }
+                                smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('c') + 1);
                                 if (!paths_compatible(smaller_set_of_paths, color_to_int('c') + 1)) {
                                     continue;
                                 }
@@ -208,20 +143,7 @@ void flow_board::solve() {
                                 }
                                 else {
                                     set_of_paths.at(color_to_int('m')) = possible_paths.at(color_to_int('m')).at(m).first;
-                                    smaller_set_of_paths.clear();
-                                    for (int i = 0; i < color_to_int('m') + 1; ++i) {
-                                        bool empty_set = true;
-                                        for (int row = 0; row < rows; ++row) {
-                                            for (int col = 0; col < cols; ++col) {
-                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                    empty_set = false;
-                                                }
-                                            }
-                                        }
-                                        if (!empty_set) {
-                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                        }
-                                    }
+                                    smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('m') + 1);
                                     if (!paths_compatible(smaller_set_of_paths, color_to_int('m') + 1)) {
                                         continue;
                                     }
@@ -232,20 +154,7 @@ void flow_board::solve() {
                                     }
                                     else {
                                         set_of_paths.at(color_to_int('w')) = possible_paths.at(color_to_int('w')).at(w).first;
-                                        smaller_set_of_paths.clear();
-                                        for (int i = 0; i < color_to_int('w') + 1; ++i) {
-                                            bool empty_set = true;
-                                            for (int row = 0; row < rows; ++row) {
-                                                for (int col = 0; col < cols; ++col) {
-                                                    if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                        empty_set = false;
-                                                    }
-                                                }
-                                            }
-                                            if (!empty_set) {
-                                                smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                            }
-                                        }
+                                        smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('w') + 1);
                                         if (!paths_compatible(smaller_set_of_paths, color_to_int('w') + 1)) {
                                             continue;
                                         }
@@ -256,20 +165,7 @@ void flow_board::solve() {
                                         }
                                         else {
                                             set_of_paths.at(color_to_int('p')) = possible_paths.at(color_to_int('p')).at(p).first;
-                                            smaller_set_of_paths.clear();
-                                            for (int i = 0; i < color_to_int('p') + 1; ++i) {
-                                                bool empty_set = true;
-                                                for (int row = 0; row < rows; ++row) {
-                                                    for (int col = 0; col < cols; ++col) {
-                                                        if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                            empty_set = false;
-                                                        }
-                                                    }
-                                                }
-                                                if (!empty_set) {
-                                                    smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                }
-                                            }
+                                            smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('p') + 1);
                                             if (!paths_compatible(smaller_set_of_paths, color_to_int('p') + 1)) {
                                                 continue;
                                             }
@@ -280,20 +176,7 @@ void flow_board::solve() {
                                             }
                                             else {
                                                 set_of_paths.at(color_to_int('h')) = possible_paths.at(color_to_int('h')).at(h).first;
-                                                smaller_set_of_paths.clear();
-                                                for (int i = 0; i < color_to_int('h') + 1; ++i) {
-                                                    bool empty_set = true;
-                                                    for (int row = 0; row < rows; ++row) {
-                                                        for (int col = 0; col < cols; ++col) {
-                                                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                                empty_set = false;
-                                                            }
-                                                        }
-                                                    }
-                                                    if (!empty_set) {
-                                                        smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                    }
-                                                }
+                                                smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('h') + 1);
                                                 if (!paths_compatible(smaller_set_of_paths, color_to_int('h') + 1)) {
                                                     continue;
                                                 }
@@ -304,20 +187,7 @@ void flow_board::solve() {
                                                 }
                                                 else {
                                                     set_of_paths.at(color_to_int('a')) = possible_paths.at(color_to_int('a')).at(a).first;
-                                                    smaller_set_of_paths.clear();
-                                                    for (int i = 0; i < color_to_int('a') + 1; ++i) {
-                                                        bool empty_set = true;
-                                                        for (int row = 0; row < rows; ++row) {
-                                                            for (int col = 0; col < cols; ++col) {
-                                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                                    empty_set = false;
-                                                                }
-                                                            }
-                                                        }
-                                                        if (!empty_set) {
-                                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                        }
-                                                    }
+                                                    smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('a') + 1);
                                                     if (!paths_compatible(smaller_set_of_paths, color_to_int('a') + 1)) {
                                                         continue;
                                                     }
@@ -328,20 +198,7 @@ void flow_board::solve() {
                                                     }
                                                     else {
                                                         set_of_paths.at(color_to_int('l')) = possible_paths.at(color_to_int('l')).at(l).first;
-                                                        smaller_set_of_paths.clear();
-                                                        for (int i = 0; i < color_to_int('l') + 1; ++i) {
-                                                            bool empty_set = true;
-                                                            for (int row = 0; row < rows; ++row) {
-                                                                for (int col = 0; col < cols; ++col) {
-                                                                    if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                                        empty_set = false;
-                                                                    }
-                                                                }
-                                                            }
-                                                            if (!empty_set) {
-                                                                smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                            }
-                                                        }
+                                                        smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('l') + 1);
                                                         if (!paths_compatible(smaller_set_of_paths, color_to_int('l') + 1)) {
                                                             continue;
                                                         }
@@ -352,20 +209,7 @@ void flow_board::solve() {
                                                         }
                                                         else {
                                                             set_of_paths.at(color_to_int('e')) = possible_paths.at(color_to_int('e')).at(e).first;
-                                                            smaller_set_of_paths.clear();
-                                                            for (int i = 0; i < color_to_int('e') + 1; ++i) {
-                                                                bool empty_set = true;
-                                                                for (int row = 0; row < rows; ++row) {
-                                                                    for (int col = 0; col < cols; ++col) {
-                                                                        if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                                            empty_set = false;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                if (!empty_set) {
-                                                                    smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                                }
-                                                            }
+                                                            smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('e') + 1);
                                                             if (!paths_compatible(smaller_set_of_paths, color_to_int('e') + 1)) {
                                                                 continue;
                                                             }
@@ -376,20 +220,7 @@ void flow_board::solve() {
                                                             }
                                                             else {
                                                                 set_of_paths.at(color_to_int('n')) = possible_paths.at(color_to_int('n')).at(n).first;
-                                                                smaller_set_of_paths.clear();
-                                                                for (int i = 0; i < color_to_int('n') + 1; ++i) {
-                                                                    bool empty_set = true;
-                                                                    for (int row = 0; row < rows; ++row) {
-                                                                        for (int col = 0; col < cols; ++col) {
-                                                                            if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                                                empty_set = false;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    if (!empty_set) {
-                                                                        smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                                    }
-                                                                }
+                                                                smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('n') + 1);
                                                                 if (!paths_compatible(smaller_set_of_paths, color_to_int('n') + 1)) {
                                                                     continue;
                                                                 }
@@ -400,20 +231,7 @@ void flow_board::solve() {
                                                                 }
                                                                 else {
                                                                     set_of_paths.at(color_to_int('t')) = possible_paths.at(color_to_int('t')).at(t).first;
-                                                                    smaller_set_of_paths.clear();
-                                                                    for (int i = 0; i < color_to_int('t') + 1; ++i) {
-                                                                        bool empty_set = true;
-                                                                        for (int row = 0; row < rows; ++row) {
-                                                                            for (int col = 0; col < cols; ++col) {
-                                                                                if (set_of_paths.at(i).at(row).at(col) != ' ') {
-                                                                                    empty_set = false;
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        if (!empty_set) {
-                                                                            smaller_set_of_paths.push_back(set_of_paths.at(i));
-                                                                        }
-                                                                    }
+                                                                    smaller_set_of_paths = shrink_set_of_paths(set_of_paths, color_to_int('t') + 1);
                                                                     if (!paths_compatible(smaller_set_of_paths, color_to_int('t') + 1)) {
                                                                         continue;
                                                                     }
@@ -775,6 +593,8 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
         cur.at(row).at(col) = color;
     }
 
+    solve_cursor = cur;
+
     build_paths_at(row + 1, col, color, cur);
     build_paths_at(row, col - 1, color, cur);
     build_paths_at(row, col + 1, color, cur);
@@ -799,9 +619,26 @@ void flow_board::sort_possible_paths() {
     }
 }
 
+vector<vector<vector<char>>> flow_board::shrink_set_of_paths(vector<vector<vector<char>>> set_of_paths, int n) {
+    vector<vector<vector<char>>> smaller_set_of_paths;
+    for (int i = 0; i < n; ++i) {
+        bool empty_set = true;
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                if (set_of_paths.at(i).at(row).at(col) != ' ') {
+                    empty_set = false;
+                }
+            }
+        }
+        if (!empty_set) {
+            smaller_set_of_paths.push_back(set_of_paths.at(i));
+        }
+    }
+    return smaller_set_of_paths;
+}
+
 bool flow_board::paths_compatible(vector<vector<vector<char>>> set_of_paths, unsigned int n) {
     if (set_of_paths.size() != n) {
-        // cout << "set size " << set_of_paths.size() << " != n " << n << endl;
         return false;
     }
     vector<vector<char>> rogue1(rows, vector<char>(cols, ' '));
