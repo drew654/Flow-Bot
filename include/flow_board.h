@@ -22,9 +22,10 @@ class flow_board {
         std::vector<std::vector<char>> solve_cursor;
         std::vector<std::pair<int, int>> pipe_starts;
         std::vector<std::pair<int, int>> pipe_ends;
-        std::vector<std::vector<std::vector<std::vector<char>>>> possible_paths;     // red, green, blue, yellow, orange, cyan, magenta, brown, purple, white, gray, lime, beige, navy, teal, pink
+        std::vector<std::vector<std::pair<std::vector<std::vector<char>>, int>>> possible_paths;     // red, green, blue, yellow, orange, cyan, magenta, brown, purple, white, gray, lime, beige, navy, teal, pink
         void map_nodes();
         void build_paths_at(int row, int col, char color, std::vector<std::vector<char>> cur);
+        void sort_possible_paths();
         bool paths_compatible(std::vector<std::vector<std::vector<char>>> set_of_paths);
         void write_solution(std::vector<std::vector<std::vector<char>>> set_of_paths);
         void print_graph(std::vector<std::vector<char>> graph, bool letters = false);
