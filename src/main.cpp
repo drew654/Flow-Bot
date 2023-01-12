@@ -1,33 +1,40 @@
+#include <iostream>
+#include <filesystem>
 #include "flow_board.h"
 
+namespace fs = std::filesystem;
+using std::cin, std::cout, std::endl, std::string;
+
 int main() {
-    flow_board board1 = flow_board("input_files/Classic_Pack/Classic_Pack_5x5_1.txt");
-    board1.print_graph();
-    board1.solve();
-    board1.print_solution();
+    cout << "Imported Flow boards:" << endl;
+    string path = "input_files";
+    int count = 0;
+    for (const auto& folder : fs::directory_iterator(path)) {
+        for (const auto& file : fs::directory_iterator(folder)) {
+            cout << ++count << ". " << file.path() << endl;
+            flow_board board = flow_board(file.path());
+            board.print_graph();
+        }
+    }
+    
+    cout << "Which would you like to solve?" << endl;
+    int input = 0;
+    while (input < 1 || input > count) {
+        cin >> input;
+        if (input < 1 || input > count) {
+            cout << "Which would you like to solve?" << endl;
+        }
+    }
 
-    flow_board board2 = flow_board("input_files/Classic_Pack/Classic_Pack_5x5_2.txt");
-    board2.print_graph();
-    board2.solve();
-    board2.print_solution();
-
-    flow_board board3 = flow_board("input_files/Classic_Pack/Classic_Pack_5x5_3.txt");
-    board3.print_graph();
-    board3.solve();
-    board3.print_solution();
-
-    flow_board board4 = flow_board("input_files/Classic_Pack/Classic_Pack_6x6_1.txt");
-    board4.print_graph();
-    board4.solve();
-    board4.print_solution();
-
-    flow_board board5 = flow_board("input_files/Classic_Pack/Classic_Pack_7x7_1.txt");
-    board5.print_graph();
-    board5.solve();
-    board5.print_solution();
-
-    flow_board board6 = flow_board("input_files/Classic_Pack/Classic_Pack_8x8_1.txt");
-    board6.print_graph();
-    board6.solve_with_progress();
-    board6.print_solution();
+    count = 0;
+    for (const auto& folder : fs::directory_iterator(path)) {
+        for (const auto& file : fs::directory_iterator(folder)) {
+            if (++count == input) {
+                flow_board board = flow_board(file.path());
+                board.print_graph();
+                board.solve();
+                board.print_solution();
+            }
+        }
+    }
 }
