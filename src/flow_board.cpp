@@ -60,14 +60,7 @@ void flow_board::solve() {
     map_nodes();
 
     // Find possible paths for each pipe
-    for (unsigned int i = 0; i < pipe_starts.size(); ++i) {
-        // If there is a pipe start
-        if (pipe_starts.at(i).first != -1 && pipe_starts.at(i).second != -1) {
-            // Find possible paths
-            vector<vector<char>> cur = vector<vector<char>>(nodes);
-            build_paths_at(pipe_starts.at(i).first, pipe_starts.at(i).second, int_to_color(i), cur);
-        }
-    }
+    find_possible_paths();
 
     // Sort the paths by length to weed out necessarily long ones
     sort_possible_paths();
@@ -599,6 +592,59 @@ void flow_board::build_paths_at(int row, int col, char color, vector<vector<char
     build_paths_at(row, col - 1, color, cur);
     build_paths_at(row, col + 1, color, cur);
     build_paths_at(row - 1, col, color, cur);
+}
+
+void flow_board::find_possible_paths() {
+    vector<vector<char>> cur0 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur1 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur2 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur3 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur4 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur5 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur6 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur7 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur8 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur9 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur10 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur11 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur12 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur13 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur14 = vector<vector<char>>(nodes);
+    vector<vector<char>> cur15 = vector<vector<char>>(nodes);
+
+    std::thread t0 ([this, cur0] {this->build_paths_at(pipe_starts.at(color_to_int('r')).first, pipe_starts.at(color_to_int('r')).second, 'r', cur0); });
+    std::thread t1 ([this, cur1] {this->build_paths_at(pipe_starts.at(color_to_int('g')).first, pipe_starts.at(color_to_int('g')).second, 'g', cur1); });
+    std::thread t2 ([this, cur2] {this->build_paths_at(pipe_starts.at(color_to_int('b')).first, pipe_starts.at(color_to_int('b')).second, 'b', cur2); });
+    std::thread t3 ([this, cur3] {this->build_paths_at(pipe_starts.at(color_to_int('y')).first, pipe_starts.at(color_to_int('y')).second, 'y', cur3); });
+    std::thread t4 ([this, cur4] {this->build_paths_at(pipe_starts.at(color_to_int('o')).first, pipe_starts.at(color_to_int('o')).second, 'o', cur4); });
+    std::thread t5 ([this, cur5] {this->build_paths_at(pipe_starts.at(color_to_int('c')).first, pipe_starts.at(color_to_int('c')).second, 'c', cur5); });
+    std::thread t6 ([this, cur6] {this->build_paths_at(pipe_starts.at(color_to_int('m')).first, pipe_starts.at(color_to_int('m')).second, 'm', cur6); });
+    std::thread t7 ([this, cur7] {this->build_paths_at(pipe_starts.at(color_to_int('w')).first, pipe_starts.at(color_to_int('w')).second, 'w', cur7); });
+    std::thread t8 ([this, cur8] {this->build_paths_at(pipe_starts.at(color_to_int('p')).first, pipe_starts.at(color_to_int('p')).second, 'p', cur8); });
+    std::thread t9 ([this, cur9] {this->build_paths_at(pipe_starts.at(color_to_int('h')).first, pipe_starts.at(color_to_int('h')).second, 'h', cur9); });
+    std::thread t10 ([this, cur10] {this->build_paths_at(pipe_starts.at(color_to_int('a')).first, pipe_starts.at(color_to_int('a')).second, 'a', cur10); });
+    std::thread t11 ([this, cur11] {this->build_paths_at(pipe_starts.at(color_to_int('l')).first, pipe_starts.at(color_to_int('l')).second, 'l', cur11); });
+    std::thread t12 ([this, cur12] {this->build_paths_at(pipe_starts.at(color_to_int('e')).first, pipe_starts.at(color_to_int('e')).second, 'e', cur12); });
+    std::thread t13 ([this, cur13] {this->build_paths_at(pipe_starts.at(color_to_int('n')).first, pipe_starts.at(color_to_int('n')).second, 'n', cur13); });
+    std::thread t14 ([this, cur14] {this->build_paths_at(pipe_starts.at(color_to_int('t')).first, pipe_starts.at(color_to_int('t')).second, 't', cur14); });
+    std::thread t15 ([this, cur15] {this->build_paths_at(pipe_starts.at(color_to_int('k')).first, pipe_starts.at(color_to_int('k')).second, 'k', cur15); });
+
+    t0.join();
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
+    t5.join();
+    t6.join();
+    t7.join();
+    t8.join();
+    t9.join();
+    t10.join();
+    t11.join();
+    t12.join();
+    t13.join();
+    t14.join();
+    t15.join();
 }
 
 void flow_board::sort_possible_paths() {

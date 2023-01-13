@@ -25,6 +25,7 @@ class flow_board {
         std::vector<std::vector<std::pair<std::vector<std::vector<char>>, int>>> possible_paths;     // red, green, blue, yellow, orange, cyan, magenta, brown, purple, white, gray, lime, beige, navy, teal, pink
         void map_nodes();
         void build_paths_at(int row, int col, char color, std::vector<std::vector<char>> cur);
+        void find_possible_paths();
         void sort_possible_paths();
         std::vector<std::vector<std::vector<char>>> shrink_set_of_paths(std::vector<std::vector<std::vector<char>>>, int n);
         bool paths_compatible(std::vector<std::vector<std::vector<char>>> set_of_paths, unsigned int n);
