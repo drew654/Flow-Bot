@@ -8,8 +8,8 @@ class flow_board {
     public:
         flow_board();
         flow_board(std::string file_name);
-        void solve();
-        void solve_with_progress();
+        void solve(bool multithreaded);
+        void solve_with_progress(bool multithreaded);
         void print_graph(bool letters = false);
         void print_solution(bool letters = false);
     private:

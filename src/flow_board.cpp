@@ -1,5 +1,4 @@
 #include "flow_board.h"
-
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -55,12 +54,24 @@ flow_board::flow_board(std::string file_name) {
     pipe_ends = vec2;
 }
 
-void flow_board::solve() {
+void flow_board::solve(bool multithreaded) {
     // Map location of every pipe start and end
     map_nodes();
 
     // Find possible paths for each pipe
-    find_possible_paths();
+    if (multithreaded) {
+        find_possible_paths();
+    }
+    else {
+        for (unsigned int i = 0; i < pipe_starts.size(); ++i) {
+            // If there is a pipe start
+            if (pipe_starts.at(i).first != -1 && pipe_starts.at(i).second != -1) {
+                // Find possible paths
+                vector<vector<char>> cur = vector<vector<char>>(nodes);
+                build_paths_at(pipe_starts.at(i).first, pipe_starts.at(i).second, int_to_color(i), cur);
+            }
+        }
+    }
 
     // Sort the paths by length to weed out necessarily long ones
     sort_possible_paths();
@@ -273,8 +284,8 @@ void flow_board::solve() {
     }
 }
 
-void flow_board::solve_with_progress() {
-    std::thread t0([this] {this->solve(); });
+void flow_board::solve_with_progress(bool multithreaded) {
+    std::thread t0([this, multithreaded] {this->solve(multithreaded); });
     std::thread t1([this] {this->print_solving_progress(); });
     t0.join();
     t1.join();

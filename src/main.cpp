@@ -32,7 +32,7 @@ int main() {
             if (++count == input) {
                 flow_board board = flow_board(file.path());
                 board.print_graph();
-                board.solve();
+                board.solve(false);
                 board.print_solution();
             }
         }
