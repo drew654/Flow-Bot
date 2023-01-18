@@ -30,9 +30,10 @@ class flow_board {
         std::vector<std::vector<std::vector<char>>> shrink_set_of_paths(std::vector<std::vector<std::vector<char>>>, int n);
         bool paths_compatible(std::vector<std::vector<std::vector<char>>> set_of_paths, unsigned int n);
         void write_solution(std::vector<std::vector<std::vector<char>>> set_of_paths);
-        void print_graph(std::vector<std::vector<char>> graph, bool letters = false);
+        std::string string_graph(std::vector<std::vector<char>> graph, bool letters = false);
         void print_solving_progress();
         std::string color_string(std::string input, char color);
+        void set_pipe_piece(std::string& str_graph, std::vector<std::vector<char>> graph, int row, int col);
         int color_to_int(char color);
         char int_to_color(int color);
 };

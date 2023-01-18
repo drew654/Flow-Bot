@@ -292,112 +292,68 @@ void flow_board::solve_with_progress(bool multithreaded) {
 }
 
 void flow_board::print_graph(bool letters) {
-    // Print upper border
-    cout << "┌";
-    for (int col = 0; col < cols + 2; ++col) {
-        cout << "─";
-        if (col < cols - 1) {
-            cout << "─";
-        }
-    }
-    cout << "┐" << endl;
-
-    // Print graph and side borders
-    for (int row = 0; row < rows; ++row) {
-        for (int col = 0; col < cols; ++col) {
-            if (col == 0) {
-                cout << "│ ";
-            }
-            if (letters) {
-                cout << color_string(string(1, nodes.at(row).at(col)), tolower(nodes.at(row).at(col)));
-            }
-            else {
-                if (nodes.at(row).at(col) == ' ') {
-                    cout << ' ';
-                }
-                else if (nodes.at(row).at(col) == tolower(nodes.at(row).at(col))) {
-                    cout << color_string("+", tolower(nodes.at(row).at(col)));
-                }
-                else {
-                    cout << color_string("⓿", tolower(nodes.at(row).at(col)));
-                }
-            }
-            cout << " ";
-            if (col == cols - 1) {
-                cout << "│";
-            }
-        }
-        cout << endl;
-    }
-
-    // Print bottom border
-    cout << "└";
-    for (int col = 0; col < cols + 2; ++col) {
-        cout << "─";
-        if (col < cols - 1) {
-            cout << "─";
-        }
-    }
-    cout << "┘" << endl;
+    cout << string_graph(nodes, letters);
 }
 
 void flow_board::print_solution(bool letters) {
-    print_graph(solution, letters);
+    cout << string_graph(solution, letters);
 }
 
-void flow_board::print_graph(vector<vector<char>> graph, bool letters) {
-    // Print upper border
-    cout << "┌";
+string flow_board::string_graph(vector<vector<char>> graph, bool letters) {
+    string s = "";
+    // Add upper border
+    s += "┌";
     for (int col = 0; col < cols + 2; ++col) {
-        cout << "─";
+        s += "─";
         if (col < cols - 1) {
-            cout << "─";
+            s += "─";
         }
     }
-    cout << "┐" << endl;
+    s += "┐\n";
 
-    // Print graph and side borders
+    // Add graph and side borders
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < cols; ++col) {
             if (col == 0) {
-                cout << "│ ";
+                s += "│ ";
             }
             if (letters) {
-                cout << color_string(string(1, graph.at(row).at(col)), tolower(graph.at(row).at(col)));
+                s += color_string(string(1, graph.at(row).at(col)), tolower(graph.at(row).at(col)));
             }
             else {
                 if (graph.at(row).at(col) == ' ') {
-                    cout << ' ';
+                    s += " ";
                 }
                 else if (graph.at(row).at(col) == tolower(graph.at(row).at(col))) {
-                    cout << color_string("+", tolower(graph.at(row).at(col)));
+                    set_pipe_piece(s, graph, row, col);
                 }
                 else {
-                    cout << color_string("⓿", tolower(graph.at(row).at(col)));
+                    s += color_string("⓿", tolower(graph.at(row).at(col)));
                 }
             }
-            cout << " ";
+            s += " ";
             if (col == cols - 1) {
-                cout << "│";
+                s += "│";
             }
         }
-        cout << endl;
+        s += "\n";
     }
 
-    // Print bottom border
-    cout << "└";
+    // Add bottom border
+    s += "└";
     for (int col = 0; col < cols + 2; ++col) {
-        cout << "─";
+        s += "─";
         if (col < cols - 1) {
-            cout << "─";
+            s += "─";
         }
     }
-    cout << "┘" << endl;
+    s += "┘\n";
+    return s;
 }
 
 void flow_board::print_solving_progress() {
     while (!solved) {
-        print_graph(solve_cursor);
+        cout << string_graph(solve_cursor);
         std::this_thread::sleep_for(1s);
     }
 }
@@ -826,6 +782,60 @@ string flow_board::color_string(string input, char color) {
     result += "\x1b[0m";
 
     return result;
+}
+
+void flow_board::set_pipe_piece(string& str_graph, vector<vector<char>> graph, int row, int col) {
+    char color = tolower(graph.at(row).at(col));
+    string addition = "";
+    // ┌
+    if (row < rows - 1 && col < cols - 1) {
+        if (tolower(graph.at(row + 1).at(col)) == color && tolower(graph.at(row).at(col + 1)) == color) {
+            addition += "┌";
+        }
+    }
+    // ┐
+    if (row < rows - 1 && col > 0) {
+        if (tolower(graph.at(row + 1).at(col)) == color && tolower(graph.at(row).at(col - 1)) == color) {
+            if (graph.at(row).at(col - 1) == color) {
+                str_graph.pop_back();
+                addition += "─";
+            }
+            addition += "┐";
+        }
+    }
+    // └
+    if (row > 0 && col < cols - 1) {
+        if (tolower(graph.at(row - 1).at(col)) == color && tolower(graph.at(row).at(col + 1)) == color) {
+            addition += "└";
+        }
+    }
+    // ┘
+    if (row > 0 && col > 0) {
+        if (tolower(graph.at(row - 1).at(col)) == color && tolower(graph.at(row).at(col - 1)) == color) {
+            if (graph.at(row).at(col - 1) == color) {
+                str_graph.pop_back();
+                addition += "─";
+            }
+            addition += "┘";
+        }
+    }
+    // │
+    if (row > 0 && row < rows - 1) {
+        if (tolower(graph.at(row - 1).at(col)) == color && tolower(graph.at(row + 1).at(col)) == color) {
+            addition += "│";
+        }
+    }
+    // ─
+    if (col > 0 && col < cols - 1) {
+        if (tolower(graph.at(row).at(col - 1)) == color && tolower(graph.at(row).at(col + 1)) == color) {
+            if (graph.at(row).at(col - 1) == color) {
+                str_graph.pop_back();
+                addition += "─";
+            }
+            addition += "─";
+        }
+    }
+    str_graph += color_string(addition, color);
 }
 
 int flow_board::color_to_int(char color) {
