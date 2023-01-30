@@ -45,9 +45,9 @@ Examples of input files are shown in [input_files/Classic_Pack](input_files/Clas
 
 When the program is run, all input files are listed and shown as previews in a numbered list. To select a puzzle to be solved, enter the number associated with that file.
 
-![image](https://user-images.githubusercontent.com/55492673/212477650-786f35c4-4bfe-4538-8d46-c652a6cab26c.png)
+![image](https://user-images.githubusercontent.com/55492673/215620733-8d7df38b-b22f-497a-beee-6dfb99832134.png)
 
 Upon entering a number associated with a file, that puzzle will be shown again, along with its solution.
 
-![image](https://user-images.githubusercontent.com/55492673/212477722-f2103412-bb5a-44b4-88e4-30ebc92345a8.png)
+![image](https://user-images.githubusercontent.com/55492673/215620883-ebe948e3-59d9-4186-b936-d7096f1274bd.png)
 
